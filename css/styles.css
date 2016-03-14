@@ -12,3 +12,8 @@ h1 {
 .color-buttons {
   display: none;
 }
+
+#turn-display {
+  text-align: center;
+  margin-top: 50px;
+}
