@@ -1,0 +1,14 @@
+h1 {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+#start-game {
+  margin-left: 45%;
+  margin-right: 45%;
+  margin-top: 30px;
+}
+
+.color-buttons {
+  display: none;
+}
