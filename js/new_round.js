@@ -1,10 +1,10 @@
 var flashNext = require('./flash_next.js').flashNext;
 var showAgain = require('./show_again.js').showAgain;
 var newColor = require('./new_color.js').newColor;
+var setActiveTrue = require('./toggle_active.js').setActiveTrue;
 
 exports.newRound = function(answers) {
   answers.push(newColor());
-  $('.color-buttons').hide();
   flashNext(answers[0]);
   $("#turn-display").show();
   $("#turn-display").text("Turn: 1");
@@ -21,6 +21,7 @@ exports.newRound = function(answers) {
       showAgain();
       i = 0;
       clearInterval(flashInterval);
+      setActiveTrue()
     }
   }
   return answers;
