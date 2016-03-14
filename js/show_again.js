@@ -1,12 +1,10 @@
 exports.showAgain = function() {
+  var colors = ['red','yellow','blue','green'];
+  var buttonClasses = ['danger','warning','primary','success'];
   $('.color-buttons').removeClass('btn-default');
-  $('#red').removeClass('btn-danger');
-  $('#yellow').removeClass('btn-warning');
-  $('#blue').removeClass('btn-primary');
-  $('#green').removeClass('btn-success');
-  $('#red').addClass('btn-danger');
-  $('#yellow').addClass('btn-warning');
-  $('#blue').addClass('btn-primary');
-  $('#green').addClass('btn-success');
+  for(var i = 0; i <= 3; i++) {
+    $('#' + colors[i]).removeClass('btn-' + buttonClasses[i]);
+    $('#' + colors[i]).addClass('btn-' + buttonClasses[i]);
+  }
   $("#turn-display").hide();
 }

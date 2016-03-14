@@ -16,6 +16,7 @@ $(function() {
   });
 
   $('.color-buttons').click(function() {
+    $(this).blur();
     if (getActive() === true) {
       console.log(answers);
       console.log(userGuesses);
