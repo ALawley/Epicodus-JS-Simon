@@ -3,26 +3,29 @@ var showAgain = require('./show_again.js').showAgain;
 var newColor = require('./new_color.js').newColor;
 var setActiveTrue = require('./toggle_active.js').setActiveTrue;
 
-exports.newRound = function(answers) {
+exports.newRound = function(answers, score) {
   answers.push(newColor());
-  flashNext(answers[0]);
+  console.log(answers);
+  var flashTime = 1000 - 5 * score;
+  if (flashTime < 50) {
+    flashTime = 50;
+  }
+  flashNext(answers[0], flashTime);
   $("#turn-display").show();
   $("#turn-display").text("Turn: 1");
   var i = 1;
-  var flashInterval = window.setInterval(handleButtonFlash, 1000);
+  var flashInterval = window.setInterval(handleButtonFlash, flashTime);
   function handleButtonFlash() {
     if(i < answers.length) {
-      console.log(answers.length);
-      console.log(i);
-      flashNext(answers[i]);
+      flashNext(answers[i], flashTime);
       i++;
       $("#turn-display").text("Turn: " + i);
     } else {
       showAgain();
       i = 0;
       clearInterval(flashInterval);
-      setActiveTrue()
+      setActiveTrue();
     }
   }
   return answers;
-}
+};

@@ -9,27 +9,30 @@ $(function() {
   var userGuesses = [];
   var answers = [];
   var guessIndex = 0;
+  var score = 0;
   $('#start-game').click(function() {
     answers = [];
     $('#start-game').hide();
     $('.color-buttons').show();
-    answers = newRound(answers);
+    score = 0;
+    $('#score').show();
+    $('#score').text("Score: " + score);
+    answers = newRound(answers, score);
   });
 
   $('.color-buttons').click(function() {
     $(this).blur();
     if (getActive() === true) {
-      console.log(answers);
-      console.log(userGuesses);
       var color = $(this).attr('id');
       userGuesses.push(color);
       if (userGuesses[guessIndex] === answers[guessIndex]) {
-        guessIndex++
+        score++;
+        guessIndex++;
         if (guessIndex === answers.length) {
           userGuesses = [];
           guessIndex = 0;
           setActiveFalse();
-          answers = newRound(answers)
+          answers = newRound(answers, score);
         }
       } else {
         answers = [];
@@ -39,11 +42,12 @@ $(function() {
         playerLose();
       }
     }
+    $('#score').text("Score: " + score);
   });
 });
 
 },{"./new_round.js":4,"./player_lose.js":5,"./toggle_active.js":7}],2:[function(require,module,exports){
-exports.flashNext = function(color) {
+exports.flashNext = function(color, flashTime) {
   $('#red').removeClass('btn-danger');
   $('#yellow').removeClass('btn-warning');
   $('#blue').removeClass('btn-primary');
@@ -61,8 +65,12 @@ exports.flashNext = function(color) {
       $('#green').addClass('btn-success');
     }
   }
-  setTimeout(reveal, 100);
-}
+  if (flashTime >= 120) {
+    setTimeout(reveal, 100);
+  } else {
+    setTimeout(reveal, flashTime - 20);
+  }
+};
 
 },{}],3:[function(require,module,exports){
 exports.newColor = function() {
@@ -74,7 +82,7 @@ exports.newColor = function() {
   } else if (colorNumber === 2) {
     return "red";
   } else {
-    return "yellow"
+    return "yellow";
   }
 };
 
@@ -84,36 +92,39 @@ var showAgain = require('./show_again.js').showAgain;
 var newColor = require('./new_color.js').newColor;
 var setActiveTrue = require('./toggle_active.js').setActiveTrue;
 
-exports.newRound = function(answers) {
+exports.newRound = function(answers, score) {
   answers.push(newColor());
-  flashNext(answers[0]);
+  console.log(answers);
+  var flashTime = 1000 - 5 * score;
+  if (flashTime < 50) {
+    flashTime = 50;
+  }
+  flashNext(answers[0], flashTime);
   $("#turn-display").show();
   $("#turn-display").text("Turn: 1");
   var i = 1;
-  var flashInterval = window.setInterval(handleButtonFlash, 1000);
+  var flashInterval = window.setInterval(handleButtonFlash, flashTime);
   function handleButtonFlash() {
     if(i < answers.length) {
-      console.log(answers.length);
-      console.log(i);
-      flashNext(answers[i]);
+      flashNext(answers[i], flashTime);
       i++;
       $("#turn-display").text("Turn: " + i);
     } else {
       showAgain();
       i = 0;
       clearInterval(flashInterval);
-      setActiveTrue()
+      setActiveTrue();
     }
   }
   return answers;
-}
+};
 
 },{"./flash_next.js":2,"./new_color.js":3,"./show_again.js":6,"./toggle_active.js":7}],5:[function(require,module,exports){
 exports.playerLose = function() {
   alert("You lose");
   $('.color-buttons').hide();
   $('#start-game').show();
-}
+};
 
 },{}],6:[function(require,module,exports){
 exports.showAgain = function() {
@@ -125,21 +136,21 @@ exports.showAgain = function() {
     $('#' + colors[i]).addClass('btn-' + buttonClasses[i]);
   }
   $("#turn-display").hide();
-}
+};
 
 },{}],7:[function(require,module,exports){
 var active = false;
 
 exports.setActiveTrue = function() {
   active = true;
-}
+};
 
 exports.getActive = function() {
   return active;
-}
+};
 
 exports.setActiveFalse = function() {
   active = false;
-}
+};
 
 },{}]},{},[1]);

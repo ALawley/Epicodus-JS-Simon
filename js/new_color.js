@@ -7,6 +7,6 @@ exports.newColor = function() {
   } else if (colorNumber === 2) {
     return "red";
   } else {
-    return "yellow"
+    return "yellow";
   }
 };

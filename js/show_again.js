@@ -7,4 +7,4 @@ exports.showAgain = function() {
     $('#' + colors[i]).addClass('btn-' + buttonClasses[i]);
   }
   $("#turn-display").hide();
-}
+};

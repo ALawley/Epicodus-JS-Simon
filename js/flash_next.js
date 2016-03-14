@@ -1,4 +1,4 @@
-exports.flashNext = function(color) {
+exports.flashNext = function(color, flashTime) {
   $('#red').removeClass('btn-danger');
   $('#yellow').removeClass('btn-warning');
   $('#blue').removeClass('btn-primary');
@@ -16,5 +16,9 @@ exports.flashNext = function(color) {
       $('#green').addClass('btn-success');
     }
   }
-  setTimeout(reveal, 100);
-}
+  if (flashTime >= 120) {
+    setTimeout(reveal, 100);
+  } else {
+    setTimeout(reveal, flashTime - 20);
+  }
+};

@@ -21,3 +21,9 @@ h1 {
 .btn:focus {
   outline: none;
 }
+
+#score {
+  text-align: center;
+  font-size: 20px;
+  margin-top: 25px;
+}
